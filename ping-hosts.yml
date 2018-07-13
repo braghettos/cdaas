@@ -1,5 +1,5 @@
 ---
-- Name: Ping Hosts
+- name: Ping Hosts
   hosts: all
   
   tasks:
