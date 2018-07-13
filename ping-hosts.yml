@@ -1,7 +1,6 @@
 ---
 - name: Ping Hosts
   hosts: all
-  gather_facts: no
   remote_user: ip172-18-0-41-bd49ssf466cg00f29t50
   
   tasks:
