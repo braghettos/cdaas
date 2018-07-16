@@ -6,6 +6,8 @@
   
   tasks:
   - name: make directory
+    become: yes
+    become_method: sudo
     file:
       path: "/root/.ssh"
       state: directory
