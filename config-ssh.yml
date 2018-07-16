@@ -11,6 +11,11 @@
     ssh_known_hosts: "{{ groups['target'] }}"
   
   tasks:
+  - name: make directory
+    file:
+      path: "/root/.ssh"
+      state: directory
+  
   - name: For each host, scan for its ssh public key
     shell: "ssh-keyscan {{ item }}"
     with_items: "{{ ssh_known_hosts }}"
