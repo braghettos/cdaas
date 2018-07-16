@@ -11,7 +11,7 @@
     ssh_known_hosts: "{{ groups['target'] }}"
   
   tasks:
-  - name: return motd to registered var
+  - name: get whoami
     command: whoami
     register: mystdout
   
