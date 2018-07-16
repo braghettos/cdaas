@@ -6,22 +6,10 @@
   
   vars:
     ssh_known_hosts_command: "ssh-keyscan -T 10"
-    #ssh_known_hosts_file: "{{ lookup('env','HOME') + '/.ssh/known_hosts' }}"
-    ssh_known_hosts_file: "{{ '/root/.ssh/known_hosts' }}"
+    ssh_known_hosts_file: "{{ lookup('env','HOME') + '/.ssh/known_hosts' }}"
     ssh_known_hosts: "{{ groups['target'] }}"
   
-  tasks:
-  - name: get whoami
-    command: whoami
-    register: mystdout
-  
-  - name: make directory
-    file:
-      path: "/root/.ssh"
-      state: directory
-    become: yes
-    become_user: root
-  
+  tasks:  
   - name: For each host, scan for its ssh public key
     shell: "ssh-keyscan {{ item }}"
     with_items: "{{ ssh_known_hosts }}"
