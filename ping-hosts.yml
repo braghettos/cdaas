@@ -21,8 +21,3 @@
       path: "{{ ssh_known_hosts_file }}"
     with_items: "{{ ssh_known_host_results.results }}"
   
-  - name: check host hostnames
-    command: hostname
-
-  - name: try to ping
-    ping:
