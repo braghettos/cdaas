@@ -1,6 +1,6 @@
 ---
 - name: Prepare SSH config
-  hosts: all
+  hosts: localhost
   gather_facts: no
   
   tasks:
