@@ -11,3 +11,6 @@
       path: /root/.ssh/known_hosts
       name: 192.168.0.33
       key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
+
+  - name: try to ping
+    ping:
