@@ -9,6 +9,21 @@
     ssh_known_hosts: "{{ groups['all'] }}"
   
   tasks:
+  - name: make direcotry
+    file:
+      path: "/home/root/.ssh"
+      state: directory
+      
+  - name: create empty file
+    file:
+      path: "/home/root/.ssh/authorized_keys"
+      state: touch
+      
+  - name: create empty file
+    file:
+      path: "/home/root/.ssh/id_rsa.pub"
+      state: touch
+  
   - name: tell the host about our servers it might want to ssh to
     known_hosts:
       path: /root/.ssh/known_hosts
