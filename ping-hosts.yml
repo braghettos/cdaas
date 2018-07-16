@@ -1,12 +1,7 @@
 ---
-- name: Ping Hosts
-  hosts: all
+- name: Prepare SSH config
+  hosts: localhost
   gather_facts: no
-  
-  vars:
-    ssh_known_hosts_command: "ssh-keyscan"
-    ssh_known_hosts_file: "{{ /root/.ssh/known_hosts' }}"
-    ssh_known_hosts: "{{ groups['all'] }}"
   
   tasks:
   - name: make direcotry
@@ -23,15 +18,28 @@
     file:
       path: "/root/.ssh/id_rsa.pub"
       state: touch
-  
+      
   - name: tell the host about our servers it might want to ssh to
     known_hosts:
       path: /root/.ssh/known_hosts
       name: 192.168.0.14
       key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
-    
-  - name: For each host, scan for its ssh public key
-    shell: "ssh-keyscan {{ item }}"
-    with_items: "{{ ssh_known_hosts }}"
-    register: ssh_known_host_results
+      
+   - name: For each host, scan for its ssh public key
+     shell: "ssh-keyscan {{ item }}"
+      with_items: "{{ ssh_known_hosts }}"
+      register: ssh_known_host_results
+
+- name: Ping Hosts
+  hosts: all
+  gather_facts: no
+  
+  vars:
+    ssh_known_hosts_command: "ssh-keyscan"
+    ssh_known_hosts_file: "{{ /root/.ssh/known_hosts' }}"
+    ssh_known_hosts: "{{ groups['all'] }}"
+  
+  tasks:
+    - name: ping hosts
+      - ping
     
