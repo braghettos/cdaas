@@ -25,21 +25,7 @@
       name: 192.168.0.14
       key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
       
-   - name: For each host, scan for its ssh public key
-     shell: "ssh-keyscan {{ item }}"
+  - name: For each host, scan for its ssh public key
+    shell: "ssh-keyscan {{ item }}"
       with_items: "{{ ssh_known_hosts }}"
       register: ssh_known_host_results
-
-- name: Ping Hosts
-  hosts: all
-  gather_facts: no
-  
-  vars:
-    ssh_known_hosts_command: "ssh-keyscan"
-    ssh_known_hosts_file: "{{ /root/.ssh/known_hosts' }}"
-    ssh_known_hosts: "{{ groups['all'] }}"
-  
-  tasks:
-    - name: ping hosts
-      - ping
-    
