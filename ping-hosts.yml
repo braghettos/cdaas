@@ -1,10 +1,11 @@
 ---
 - name: Prepare SSH config
   hosts: localhost
+  connection: local
   gather_facts: no
   
   tasks:
-  - name: make direcotry
+  - name: make directory
     file:
       path: "/root/.ssh"
       state: directory
