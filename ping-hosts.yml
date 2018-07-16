@@ -1,6 +1,7 @@
 ---
 - name: Ping Hosts
   hosts: all
+  gather_facts: no
   
   vars:
     ssh_known_hosts_command: "ssh-keyscan -T 10"
