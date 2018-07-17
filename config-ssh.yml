@@ -23,7 +23,7 @@
       path: "{{ ssh_known_hosts_file }}"
     with_items: "{{ ssh_known_host_results.results }}"
 
-    - name: Add/update the public key in the '{{ ssh_known_hosts_file }}'
+  - name: Add/update the public key in the '{{ ssh_known_hosts_file }}'
     known_hosts:
       name: "{{ item.item }}"
       key: "{{ item.stdout }}"
