@@ -16,9 +16,17 @@
     register: ssh_known_host_results
     ignore_errors: yes
     
-  - name: Set up multiple authorized keys
-    authorized_key:
-      user: awx
-      state: present
+  - name: Remove the public key in the '{{ ssh_known_hosts_file }}'
+    known_hosts:
+      name: "{{ item.item }}"
+      state: "absent"
+      path: "{{ ssh_known_hosts_file }}"
+    with_items: "{{ ssh_known_host_results.results }}"
+
+    - name: Add/update the public key in the '{{ ssh_known_hosts_file }}'
+    known_hosts:
+      name: "{{ item.item }}"
       key: "{{ item.stdout }}"
+      state: "present"
+      path: "{{ ssh_known_hosts_file }}"
     with_items: "{{ ssh_known_host_results.results }}"
