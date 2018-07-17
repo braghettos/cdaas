@@ -7,6 +7,7 @@
   vars:
     ssh_known_hosts_command: "ssh-keyscan -T 10"
     ssh_known_hosts_file: "{{ lookup('env','HOME') + '/.ssh/known_hosts' }}"
+    ssh_auth_keys_file: "{{ lookup('env','HOME') + '/.ssh/authorized_key' }}"
     ssh_known_hosts: "{{ groups['target'] }}"
   
   tasks:  
@@ -22,11 +23,19 @@
       state: "absent"
       path: "{{ ssh_known_hosts_file }}"
     with_items: "{{ ssh_known_host_results.results }}"
-
+    
+  - name: Set up multiple authorized keys 
+    authorized_key:
+      user: awx
+      state: present
+      key: "{{ item.stdout }}"
+      path: "{{ ssh_known_hosts_file }}"
+    with_items: "{{ ssh_known_host_results.results }}"
+    
   - name: Add/update the public key in the '{{ ssh_known_hosts_file }}'
     known_hosts:
       name: "{{ item.item }}"
       key: "{{ item.stdout }}"
       state: "present"
-      path: "{{ ssh_known_hosts_file }}"
+      path: "{{ ssh_auth_keys_file }}"
     with_items: "{{ ssh_known_host_results.results }}"
